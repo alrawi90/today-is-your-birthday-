@@ -4,27 +4,27 @@
   require 'application/class.DBconnection.php';
 
 
-  $config= new Config;
+  $config= new Config; // read database configration and construct the needed connection object
   $info=   array(
-  	"host" => $config->host,
+  	 "host" => $config->host,
   	 "username" => $config->dbUsername ,
   	 "password" => $config->dbPassword,
-    "database" => $config->db
+     "database" => $config->db
    );
   
-  $connection=  new DBconnection($info);
-  $connection=$connection->connect();
-  $birthdayChecker=  new BirthdayChecker($connection);
+  $connection=  new DBconnection($info); // initialize the connection object
+  //$connection=$connection->connect();    
 
-  echo "starting server ....";
-  $output = $birthdayChecker->checkBirthday();
+  $birthdayChecker=  new BirthdayChecker($connection->connect()); //connect to the database & initialize the birthday checker object 
+  
+  $output = $birthdayChecker->checkBirthday(); // check if today is the birthday of one or more customers.
   
   if($output != null){
-    $birthdayChecker->send_SMS($output);
+    $birthdayChecker->send_SMS($output);    // send sms 
   }else{
     echo "next check 24 hours later.";
   }
-
+  $connection->disconnect();
 
 
 ?>

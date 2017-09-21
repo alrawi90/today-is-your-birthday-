@@ -40,7 +40,7 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `Full_Name`, `Mobile_Number`, `Prefered_Language`, `Date_of_Birth`) VALUES
 (1, 'Ali Alrawi', '+9647828624095', 1, '1985-01-20'),
-(2, 'Ali MAohsen', '+9647712294680', 2, '2017-09-21');
+(2, 'Ali Mohsen', '+9647712294680', 2, '2017-09-21');
 
 -- --------------------------------------------------------
 
