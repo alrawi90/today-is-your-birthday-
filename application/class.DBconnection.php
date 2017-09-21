@@ -1,4 +1,4 @@
-<?
+<?php
 
 class DBconnection {
 
@@ -9,28 +9,30 @@ class DBconnection {
 	var $database  = null;
   var $connection =null;
 	function __construct( $info ) {
-	   $this->$host = $info["host"];
-	   $this->$username = $info["username"];
-	   $this->$password = $info["password"];
-	   $this->$database = $info["database"];
+	   $this->host = $info["host"];
+	   $this->username = $info["username"];
+	   $this->password = $info["password"];
+	   $this->database = $info["database"];
 	   
 	}
 
 	function connect(){
-		$this->$connection = mysqli_connect($this->$host, $this->$username, $this->$password, $this->$database);
+
+		$this->connection = mysqli_connect($this->host, $this->username, $this->password, $this->database);
 		// Check connection
         if (mysqli_connect_errno())
         {
-          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+          echo "Failed to connect to MySQLi: " . mysqli_connect_error();
         }else{
-        	echo "Connected to database ".$database."."
+        	$this->connection->set_charset("utf8");//suport Arabic and Kurdish ...
+        	echo "Connected to database ".$this->database.".";
         }
-        return $this->$connection;
+        return $this->connection;
 	}
   
   function disconnect(){
-  	$this->$connection->close();
-  	echo "connection closed."
+  	$this->connection->close();
+  	echo "connection closed.";
   }
 
 }
