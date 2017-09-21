@@ -4,13 +4,15 @@ class BirthdayChecker {
 
     var $DatabaseConnection = null;
     var $today = date("m.d");
+    var $now   = $now=date('Y-m-d H:i:s');
 
     const GET_USERS_WHOSE_BIRTHDAY_IS_TODAY = "SELECT customers.Full_Name, customers.Mobile_Number, languages.language,
         sms.content FROM customers 
-        LEFT JOIN languages ON customers.Prefered_language = languages.id JOIN congrats ON sms.language_id=languages.id
-        WHERE customers.Date_of_Birth LIKE '%$today%'";//"SELECT * FROM `customers` WHERE Date_of_Birth = '$today'";
+        LEFT JOIN languages ON customers.Prefered_language = languages.id JOIN sms ON sms.language_id=languages.id
+        WHERE customers.Date_of_Birth LIKE '%$today%'";
+        
 
-    
+    const INSERT_LOG= "INSERT INTO logs Date, Mobile_Number, SMS VALUES('?','?','?')";
 
 	function __construct( $connection ) {
 
@@ -23,39 +25,34 @@ class BirthdayChecker {
 		$result = $this->$DatabaseConnection->query(GET_USERS_WHOSE_BIRTHDAY_IS_TODAY);
 
         if ($result->num_rows > 0) {
-            
-            foreach ($customers as $customer) {   
-	            $name = $customer['Full_Name'];
-	            $number = $customer['Mobile_Number'];
-	            $sms = $customer['content'];
-	            //echo 'Todays is'.$name.' '.$surename.' birthday'; 
+            echo $result->num_rows." results found!";
+            return $result->fetch_assoc();
         	}
-            // output data of each row
-            // while($row = $result->fetch_assoc()) {
-            //     echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-            //     }
+
         } else {
 
             echo "0 results";
         }
-
+        return null;
 	}
 
-	function sendCongratsSMS($customers){
+	function send_SMS($customers){
 
         foreach ($customers as $customer) {   
             $name = $customer['Full_Name'];
             $number = $customer['Mobile_Number'];
-            $number = $customer['Mobile_Number'];
-            echo 'Todays is'.$name.' '.$surename.' birthday';                 
+            $sms = $customer['content'];
+            echo $Full_Name.' '.$Mobile_Number.'... '.$sms.'  has been sent successfully.';
+            $this->log( array("date" => $username, "mobile_number" => $number, "sms" => $sms))
         } 
       
 	}
 
 
-	function log($logs){
-
-
+	function log($log){
+     
+     $this->$DatabaseConnection->query(INSERT_LOG,$;$log['date'],$log['mobile_number'],$log['sms']);
+     
 	}
 
 
