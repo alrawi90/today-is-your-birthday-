@@ -6,6 +6,7 @@ class Config{
    var $dbUsername = "root";
    var $dbPassword =  "";
    var $db =  "birthday";
+   var $SMSDomian= "";
 
 }
 
