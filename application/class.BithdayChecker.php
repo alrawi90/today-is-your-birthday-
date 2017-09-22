@@ -4,8 +4,6 @@ class BirthdayChecker {
 
     var $DatabaseConnection = null;
 
-    var $now   = null;
-
     const GET_USERS_WHOSE_BIRTHDAY_IS_TODAY = "SELECT customers.Full_Name, customers.Mobile_Number, languages.language,
         sms.content FROM customers 
         LEFT JOIN languages ON customers.Prefered_language = languages.id JOIN sms ON sms.language_id=languages.id
@@ -18,7 +16,7 @@ class BirthdayChecker {
 
 	   $this->DatabaseConnection = $connection;
 	   
-	   $this->now=  date("Y-m-d H:i:s");
+	   
 
 	  
 	}
@@ -26,19 +24,19 @@ class BirthdayChecker {
 	function checkBirthday(){
         
 		$result = $this->DatabaseConnection->query(self::GET_USERS_WHOSE_BIRTHDAY_IS_TODAY);
+
         if(!$result){
-            'Invalid query: ' . $conn->error;
+            'Invalid query: ' . $this->DatabaseConnection->error;
         }else{
 	        if ( $result->num_rows > 0) {
 	            echo $result->num_rows." results found! \n";
 	            return $result;
 	        	
-
 	        } else {
 
 	            echo "0 results \n";
 	        }
-     }
+        }
         return null;
 	}
 
@@ -50,11 +48,11 @@ class BirthdayChecker {
             $sms = $customer['content'];
             if( mail( $number.'@domain.com', '', $sms ) ){  
             
-            // this will be done only if we know the real domain addrress of the mobile company
+            // this will be done only if we know the real domain addresses of Zain, Asiacell, Korek, ..etc companies
             
                     echo $name.' '.$number.'... '.$sms.'  has been sent successfully.';
-            
-                    $this->log( array("date" => $this->now, "mobile_number" => $number, "sms" => $sms));// insert log
+                    $now=  date("Y-m-d H:i:s"); // hold the this moment in a veriable.
+                    $this->log( array("date" => $now, "mobile_number" => $number, "sms" => $sms));// insert log
                 
             }
 

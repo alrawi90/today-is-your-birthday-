@@ -7,7 +7,7 @@ class DBconnection {
 	var $username = null;
 	var $password = null;
 	var $database  = null;
-  var $connection =null;
+    var $connection =null;
   
 	function __construct( $info ) {
 		
@@ -20,15 +20,6 @@ class DBconnection {
 
 	function connect(){
 
-		// $this->connection = mysqli_connect($this->host, $this->username, $this->password, $this->database);
-		// Check connection
-        // if (mysqli_connect_errno())
-        // {
-        //   echo "Failed to connect to MySQLi: " . mysqli_connect_error();
-        // }else{
-        // 	$this->connection->set_charset("utf8");//suport Arabic and Kurdish ...
-        // 	echo "Connected to database ".$this->database.".";
-        // }
         
         try {
              $this->connection = new mysqli($this->host, $this->username, $this->password);
@@ -38,10 +29,10 @@ class DBconnection {
              echo '\n';
           }
           
-        if ($this->connection->select_db($this->database) === false) {
+        if ($this->connection->select_db($this->database) === false) { // if the database does not exist
         	   
-        	   if($this->connection->query(  "CREATE DATABASE ".$this->database)){
-        	   	         //$sql = file_get_contents('./database/birthday.sql');
+        	   if($this->connection->query(  "CREATE DATABASE ".$this->database)){ // create database
+        	   	       //$sql = file_get_contents('./database/birthday.sql');
                        echo "created. \n";
                        //$this->connection->multi_query($sql);
         	   }else{
@@ -51,7 +42,7 @@ class DBconnection {
 
         }
         
-        $this->connection->select_db($this->database);
+        $this->connection->select_db($this->database); // set the connectionto the current database
         
         $this->connection->set_charset("utf8");//support Arabic and Kurdish ...
         

@@ -20,7 +20,7 @@
   $output = $birthdayChecker->checkBirthday(); // check if today is the birthday of one or more customers.
   
   if($output != null){
-    $birthdayChecker->send_SMS($output);    // send sms 
+    $birthdayChecker->send_SMS($output);    // send SMS
   }else{
     echo "next check 24 hours later.";
   }
